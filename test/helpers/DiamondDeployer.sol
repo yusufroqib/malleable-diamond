@@ -37,7 +37,7 @@ contract DiamondDeployer is DiamondUtils, IDiamondCut {
     bytes32 merkleroot =
         0x2ed712f81db5ceb291ebb6cfb4152d38f7a128d1a49ed6219103d9e6c1aca4a3;
 
-    function setUp() public {
+    function setUp() public virtual  {
         // Deploy facets first
         dCutFacet = new DiamondCutFacet();
         dLoupe = new DiamondLoupeFacet();
