@@ -1,0 +1,19 @@
+{
+  "name": "foundry-hardhat-diamonds",
+  "version": "1.0.0",
+  "description": "[![Mentioned in Awesome Foundry](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/crisgarner/awesome-foundry)\r # Foundry + Hardhat Diamonds",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/merkle-tree": "^1.0.7"
+  }
+}
