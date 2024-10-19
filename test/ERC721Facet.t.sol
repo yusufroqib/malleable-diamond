@@ -80,12 +80,9 @@ contract ERC721FacetTest is DiamondDeployer {
 
         vm.prank(user1);
         ERC721_Diamond.setApprovalForAll(address(this), true);
-
         ERC721_Diamond.transferFrom(user1, user2, 215);
-
         assertEq(ERC721_Diamond.balanceOf(user1), 4);
         assertEq(ERC721_Diamond.balanceOf(user2), 1);
-
         assertEq(ERC721_Diamond.ownerOf(215), user2);
         assertEq(ERC721_Diamond.ownerOf(20256), user1);
     }
