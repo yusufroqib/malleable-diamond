@@ -3,10 +3,7 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import {LibDiamond} from "../libraries/LibDiamond.sol";
 import {MerkleProof} from "../libraries/MerkleProof.sol";
-
-interface IERC721 {
-    function mint(address to, uint256 tokenId) external;
-}
+import "./ERC721Facet.sol";
 
 contract PresaleFacet {
     error InvalidProof();
@@ -37,7 +34,6 @@ contract PresaleFacet {
         if (diaStorage().hasMinted[msg.sender]) {
             revert AlreadyMinted();
         }
-
         // Check if minimum ETH is sent
         if (msg.value < NFT_PRICE) {
             revert IncorrectEthSent();
@@ -48,8 +44,12 @@ contract PresaleFacet {
             revert InvalidProof();
         }
 
+      
+
+
         // Calculate the number of NFTs to mint based on the ETH sent
         uint256 numNfts = (msg.value * NFTS_PER_ETHER) / 1 ether;
+
         address nftAddr = diaStorage().token;
 
         // Set status to Minted
@@ -58,7 +58,7 @@ contract PresaleFacet {
         // Mint the NFTs
         for (uint256 i = 0; i < numNfts; i++) {
             diaStorage().tokenIds++;
-            IERC721(nftAddr).mint(msg.sender, diaStorage().tokenIds + i);
+            ERC721Facet(nftAddr).mint(msg.sender, diaStorage().tokenIds + i);
             emit MintedNft(
                 address(this),
                 msg.sender,
@@ -72,8 +72,13 @@ contract PresaleFacet {
         diaStorage().merkleRoot = _newMerkleroot;
     }
 
-    function _verifyProof(bytes32[] memory proof, address addr) private view returns (bool) {
-        bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(addr))));
+    function _verifyProof(
+        bytes32[] memory proof,
+        address addr
+    ) private view returns (bool) {
+        bytes32 leaf = keccak256(abi.encodePacked(addr));
+        // console.logBytes32(leaf);
+
         return MerkleProof.verify(proof, diaStorage().merkleRoot, leaf);
     }
 }

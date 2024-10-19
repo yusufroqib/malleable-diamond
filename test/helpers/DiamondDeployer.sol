@@ -37,23 +37,37 @@ contract DiamondDeployer is DiamondUtils, IDiamondCut {
     bytes32 merkleroot =
         0x2ed712f81db5ceb291ebb6cfb4152d38f7a128d1a49ed6219103d9e6c1aca4a3;
 
-    function setUp() public virtual  {
+    function setUp() public virtual {
         // Deploy facets first
         dCutFacet = new DiamondCutFacet();
-        dLoupe = new DiamondLoupeFacet();
-        ownerF = new OwnershipFacet();
-        presaleFacet = new PresaleFacet();
-        erc721Facet = new ERC721Facet();
+                erc721Facet = new ERC721Facet();
 
-        // Deploy diamond with initial facets
+            // Deploy diamond with initial facets and NFT address
         diamond = new Diamond(
             address(this),
             address(dCutFacet),
             name,
             symbol,
             merkleroot,
-            NftAddress2
+            address(erc721Facet)  // Pass the NFT address here
         );
+
+        dLoupe = new DiamondLoupeFacet();
+        ownerF = new OwnershipFacet();
+        presaleFacet = new PresaleFacet();
+        
+        // Deploy ERC721 implementation first
+
+    
+         // Initialize facet references AFTER the diamond cut
+        ERC721_Diamond = ERC721Facet(address(diamond));
+        Presale_Diamond = PresaleFacet(address(diamond));
+
+        // Setup test addresses
+        (creator1, privateKey1) = mkaddr("CREATOR");
+        (creator2, privateKey2) = mkaddr("CREATOR2");
+        (spender, privateKey3) = mkaddr("SPENDER");
+
 
         // Create function selectors
         FacetCut[] memory cut = new FacetCut[](4);
@@ -89,14 +103,19 @@ contract DiamondDeployer is DiamondUtils, IDiamondCut {
         // Perform the diamond cut
         IDiamondCut(address(diamond)).diamondCut(cut, address(0), "");
 
-        // Initialize facet references AFTER the diamond cut
-        ERC721_Diamond = ERC721Facet(address(diamond));
-        Presale_Diamond = PresaleFacet(address(diamond));
+        // // Initialize facet references AFTER the diamond cut
+        // ERC721_Diamond = ERC721Facet(address(diamond));
+        // Presale_Diamond = PresaleFacet(address(diamond));
 
-        // Setup test addresses
-        (creator1, privateKey1) = mkaddr("CREATOR");
-        (creator2, privateKey2) = mkaddr("CREATOR2");
-        (spender, privateKey3) = mkaddr("SPENDER");
+        // // Setup test addresses
+        // (creator1, privateKey1) = mkaddr("CREATOR");
+        // (creator2, privateKey2) = mkaddr("CREATOR2");
+        // (spender, privateKey3) = mkaddr("SPENDER");
+
+        // Additional setup: Initialize ERC721 if needed
+        vm.startPrank(address(this));
+        // Add any additional ERC721 initialization here if needed
+        vm.stopPrank();
     }
 
     function diamondCut(
@@ -117,5 +136,10 @@ contract DiamondDeployer is DiamondUtils, IDiamondCut {
         vm.startPrank(_newSigner);
         vm.deal(_newSigner, 3 ether);
         vm.label(_newSigner, "USER");
+    }
+
+    // Helper function to verify NFT setup
+    function getNftAddress() public view returns (address) {
+        return NftAddress2;
     }
 }

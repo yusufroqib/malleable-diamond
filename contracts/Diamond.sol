@@ -24,7 +24,7 @@ contract Diamond {
 
         // Initializing name and symbol for ERC721Facet
         LibDiamond.setERC721Details(_name, _symbol);
-        LibDiamond.setMarketPlaceDetails(NFTtokenAddress);
+        LibDiamond.setPresaleFacetDetails(NFTtokenAddress);
         LibDiamond.DiamondStorage storage ds = LibDiamond.diamondStorage();
         ds.merkleRoot = _merkleroot;
 

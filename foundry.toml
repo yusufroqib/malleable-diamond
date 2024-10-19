@@ -1,6 +1,7 @@
 [profile.default]
 src = 'contracts'
 out = 'out'
+fs_permissions = [{ access = "read", path = "./"}]
 libs = [
     'lib'
 ]

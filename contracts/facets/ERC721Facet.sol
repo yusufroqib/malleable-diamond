@@ -6,6 +6,7 @@ import {LibDiamond} from "../libraries/LibDiamond.sol";
 import {IERC721Receiver} from "../interfaces/IERC721Receiver.sol";
 import {Strings} from "../libraries/Strings.sol";
 import {Address} from "../libraries/Address.sol";
+import "forge-std/console.sol"; // For logging
 
 contract ERC721Facet {
     using Address for address;
@@ -39,6 +40,7 @@ contract ERC721Facet {
 
     function name() external view returns (string memory) {
         LibDiamond.DiamondStorage storage ds = LibDiamond.diamondStorage();
+       console.log("token name",ds.name);
         return ds.name;
     }
 
@@ -50,6 +52,7 @@ contract ERC721Facet {
     function balanceOf(address _owner) external view returns (uint256) {
         LibDiamond.DiamondStorage storage ds = LibDiamond.diamondStorage();
         require(_owner != address(0), "ERC721: Not a Valid Address");
+        console.log(_owner);
 
         return ds.balances[_owner];
     }
@@ -308,7 +311,7 @@ contract ERC721Facet {
 
         // Check that tokenId was not minted by `_beforeTokenTransfer` hook
         require(!_exists(tokenId), "ERC721: token already minted");
-
+        // console.log(ds.balances[to]);
         unchecked {
             ds.balances[to] += 1;
         }
@@ -341,4 +344,3 @@ contract ERC721Facet {
         _afterTokenTransfer(owner, address(0), tokenId, 1);
     }
 }
-

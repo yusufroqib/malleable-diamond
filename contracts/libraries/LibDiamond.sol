@@ -53,7 +53,7 @@ library LibDiamond {
         string name;
         // Token symbol
         string symbol;
-        
+
         address token;
         // index
         uint256 tokenIds;
@@ -97,7 +97,7 @@ library LibDiamond {
         ds.symbol = _symbol;
     }
 
-    function setMarketPlaceDetails(address _token) internal {
+    function setPresaleFacetDetails(address _token) internal {
         DiamondStorage storage ds = diamondStorage();
         ds.token = _token;
     }
