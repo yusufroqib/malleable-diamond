@@ -104,13 +104,7 @@ contract DiamondDeployer is DiamondUtils, IDiamondCut {
         IDiamondCut(address(diamond)).diamondCut(cut, address(0), "");
 
         // // Initialize facet references AFTER the diamond cut
-        // ERC721_Diamond = ERC721Facet(address(diamond));
-        // Presale_Diamond = PresaleFacet(address(diamond));
-
-        // // Setup test addresses
-        // (creator1, privateKey1) = mkaddr("CREATOR");
-        // (creator2, privateKey2) = mkaddr("CREATOR2");
-        // (spender, privateKey3) = mkaddr("SPENDER");
+      
 
         // Additional setup: Initialize ERC721 if needed
         vm.startPrank(address(this));
