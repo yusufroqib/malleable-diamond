@@ -3,7 +3,11 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import {LibDiamond} from "../libraries/LibDiamond.sol";
 import {MerkleProof} from "../libraries/MerkleProof.sol";
-import "./ERC721Facet.sol";
+// import "./ERC721Facet.sol";
+interface IERC721 {
+        function mint(address to, uint256 tokenId) external; 
+
+}
 
 contract PresaleFacet {
     error InvalidProof();
@@ -58,7 +62,7 @@ contract PresaleFacet {
         // Mint the NFTs
         for (uint256 i = 0; i < numNfts; i++) {
             diaStorage().tokenIds++;
-            ERC721Facet(nftAddr).mint(msg.sender, diaStorage().tokenIds + i);
+            IERC721(nftAddr).mint(msg.sender, diaStorage().tokenIds + i);
             emit MintedNft(
                 address(this),
                 msg.sender,

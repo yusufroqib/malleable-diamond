@@ -1,12 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-import "../contracts/interfaces/IDiamondCut.sol";
-import "../contracts/facets/DiamondCutFacet.sol";
-import "../contracts/facets/DiamondLoupeFacet.sol";
-import "../contracts/facets/OwnershipFacet.sol";
-import "../contracts/Diamond.sol";
-import "./helpers/DiamondUtils.sol";
 import "./helpers/DiamondDeployer.sol";
 import "forge-std/Test.sol";
 import "forge-std/console.sol"; // For logging
