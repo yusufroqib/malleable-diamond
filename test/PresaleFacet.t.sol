@@ -79,9 +79,9 @@ contract PresaleFacetTest is DiamondDeployer {
         vm.stopPrank();
     }
 
-    function diamondCut(
-        FacetCut[] calldata _diamondCut,
-        address _init,
-        bytes calldata _calldata
-    ) external override {}
+    // function diamondCut(
+    //     FacetCut[] calldata _diamondCut,
+    //     address _init,
+    //     bytes calldata _calldata
+    // ) external override {}
 }
